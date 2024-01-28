@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from 'react-native'
+import {Dimensions, StyleSheet, Text} from 'react-native'
 import Colors from '../../constants/colors'
 
 function Caption({ children, style }) {
@@ -9,12 +9,13 @@ function Caption({ children, style }) {
     )
 }
 
+const deviceWidth = Dimensions.get('screen').width
+
 const styles = StyleSheet.create({
     caption: {
-        color: Colors.accent500,
-        fontSize: 16,
-        fontFamily: 'Roboto',
-        marginVertical: 8
+        color: Colors.mspaintYellow,
+        fontFamily: 'RobotoBold',
+        fontSize: deviceWidth < 480 ? 14 : 24,
     },
 })
 export default Caption

@@ -1,4 +1,4 @@
-import {View, StyleSheet, Alert, FlatList, Image} from 'react-native'
+import {View, StyleSheet, Alert, FlatList, Image, Dimensions} from 'react-native'
 import Title from '../components/ui/Title'
 import { useState, useEffect } from 'react'
 import NumberContainer from '../components/game/NumberContainer'
@@ -8,6 +8,7 @@ import Caption from '../components/ui/Caption'
 import { Ionicons } from '@expo/vector-icons'
 import Colors from '../constants/colors'
 import LogItem from '../components/game/LogItem'
+import {LinearGradient} from "expo-linear-gradient";
 
 function generateRandomNumber(min: number, max: number, exclude: any) {
     const randomNumber = Math.floor(Math.random() * (max - min)) + min
@@ -32,7 +33,7 @@ function GameScreen({userNumber, onGameOver}) {
 
     function nextGuessHandler(direction: number) {
         if ((direction < 1 && currentGuess < userNumber) || (direction > 0 && currentGuess > userNumber)) {
-            Alert.alert('\'WHOAH!! IF IT ISN\'T... A LIAR!\'', 'I know that is wrong...', [{
+            Alert.alert('WHAT... DON\'T BE A CHEATER!', 'I know that\'s wrong...', [{
                 text: 'Sorry Spamton',
                 style: 'cancel'
             }])
@@ -54,33 +55,35 @@ function GameScreen({userNumber, onGameOver}) {
         <>
 
             <View style={styles.container}>
-                <Title children={'Spamton\'s Guess'}/>
+                <Title children={'I GUESS [[A BIG, BIG SHOT]]...'}/>
+                <NumberContainer>{currentGuess}</NumberContainer>
                 <View style={ styles.imageContainer }>
                     <Image
                         source={ require('../../assets/images/spamton-laughing-01.gif') }
                         style={ styles.image }
                     />
                 </View>
-                <NumberContainer>{currentGuess}</NumberContainer>
                 <Card>
-                    <Caption style={styles.caption}>Higher or Lower?</Caption>
+                    <Caption style={styles.caption}>Is that your number??</Caption>
                     <View style={styles.buttonContainer}>
                         <View style={styles.button}>
                             <PrimaryButton
                                 onPress={nextGuessHandler.bind(this, 0)}>
-                                <Ionicons
-                                    name="remove"
-                                    size={24}
-                                    color={Colors.accent500}/>
+                                {/*<Ionicons*/}
+                                {/*    name="remove"*/}
+                                {/*    size={deviceWidth < 480 ? 32 : 48}*/}
+                                {/*    color={Colors.black}/>*/}
+                                - LOWER
                             </PrimaryButton>
                         </View>
                         <View style={styles.button}>
                             <PrimaryButton
                                 onPress={nextGuessHandler.bind(this, 1)}>
-                                <Ionicons
-                                    name="add"
-                                    size={24}
-                                    color={Colors.accent500}/>
+                                HIGHER +
+                                {/*<Ionicons*/}
+                                {/*    name="add"*/}
+                                {/*    size={deviceWidth < 480 ? 40 : 48}*/}
+                                {/*    color={Colors.black}/>*/}
                             </PrimaryButton>
                         </View>
                     </View>
@@ -95,6 +98,7 @@ function GameScreen({userNumber, onGameOver}) {
                         )
                     }
                     keyExtractor={ (item) => item }
+                    style={ styles.guesses }
 
                 />
             </View>
@@ -102,42 +106,36 @@ function GameScreen({userNumber, onGameOver}) {
     )
 }
 
+const deviceWidth = Dimensions.get('screen').width
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 48,
-        justifyContent: 'center',
+        marginTop: deviceWidth < 480 ? 48 : 56,
         alignItems: 'center',
-    },
-    titleContainer: {
-        padding: 24,
-        justifyContent: 'space-between',
     },
     buttonContainer: {
         flexDirection: 'row',
         width: '100%',
-        paddingHorizontal: 8
+        paddingHorizontal: deviceWidth < 480 ? 16 : 32,
     },
     button: {
         flex: 1,
-        marginHorizontal: 8
     },
     caption: {
-        marginBottom: 8
+        marginVertical: deviceWidth < 480 ? 8 : 16,
     },
     log: {
-        color: Colors.accent500,
+        color: Colors.mspaintPink,
     },
     imageContainer: {
-        borderWidth: 3,
-        borderColor: 'Colors.primary800',
-        borderRadius: 150,
-        width: 300,
-        height: 300,
+        borderWidth: deviceWidth < 480 ? 4 : 6,
+        borderColor: 'Colors.black',
+        borderRadius: deviceWidth < 480 ? 120 : 160,
+        width: deviceWidth < 480 ? 240 : 320,
+        height: deviceWidth < 480 ? 240 : 320,
         overflow: 'hidden',
-        margin: 16
     },
-
     image: {
         width: '100%',
         height: '100%',
@@ -145,7 +143,9 @@ const styles = StyleSheet.create({
     guesses: {
         width: '100%',
         padding: 16,
-        margin: 8,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        borderTopWidth: 2,
+        borderTopColor: Colors.mspaintYellow,
     }
 })
 

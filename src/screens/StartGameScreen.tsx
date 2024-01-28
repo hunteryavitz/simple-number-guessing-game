@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Alert, StyleSheet, TextInput, View } from 'react-native'
+import {Alert, Dimensions, Image, StyleSheet, TextInput, View} from 'react-native'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Colors from '../constants/colors'
 import Title from '../components/ui/Title'
@@ -31,11 +31,17 @@ function StartGameScreen({ onEnteredNumber }) {
 
     return (
         <View style={ styles.container }>
-            <View style={ styles.caption }>
-                <Title children={ 'NOW\'s YOUR CHANCE TO BE A [[BIG SHOT]] !!' }></Title>
+            <View>
+                <Title children={ 'NOW\'s YOUR CHANCE TO BE A [[BIG SHOT, BIG SHOT]] !!' }></Title>
+            </View>
+            <View style={ styles.imageContainer }>
+                <Image
+                    source={ require('../../assets/images/spamton-eager.gif') }
+                    style={ styles.image }
+                />
             </View>
             <Card>
-                <Caption style={ styles.caption }>Spamton will guess your number between 1 and 99</Caption>
+                <Caption style={ styles.caption }>Pick a number between [1] and [99] ... </Caption>
                 <TextInput
                     style={ styles.numberInput }
                     maxLength={ 2 }
@@ -49,12 +55,12 @@ function StartGameScreen({ onEnteredNumber }) {
                     <View style={ styles.buttonContainer }>
                         <PrimaryButton
                             onPress={ resetInputHandler }
-                        >Reset</PrimaryButton>
+                        >RESET</PrimaryButton>
                     </View>
                     <View style={ styles.buttonContainer }>
                         <PrimaryButton
                             onPress={ confirmInputHandler }
-                        >Confirm</PrimaryButton>
+                        >LET's GO</PrimaryButton>
                     </View>
                 </View>
             </Card>
@@ -62,35 +68,53 @@ function StartGameScreen({ onEnteredNumber }) {
     )
 }
 
+const deviceWidth = Dimensions.get('screen').width
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 120,
+        marginTop: deviceWidth < 480 ? 64 : 72,
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+    imageContainer: {
+        borderWidth: deviceWidth < 480 ? 3 : 5,
+        borderColor: 'Colors.black',
+        borderRadius: deviceWidth < 480 ? 120 : 160,
+        width: deviceWidth < 480 ? 240 : 320,
+        height: deviceWidth < 480 ? 240 : 320,
+        overflow: 'hidden',
+        margin: deviceWidth < 480 ? -48 : -64,
+    },
+    image: {
+        width: '100%',
+        height: '100%',
+    },
     numberInput: {
-        height: 50,
-        width: 50,
-        fontSize: 28,
-        borderBottomColor: Colors.accent500,
-        borderBottomWidth: 2,
-        color: Colors.accent500,
-        marginVertical: 8,
-        fontWeight: 'bold',
+        fontFamily: 'RobotoBold',
+        backgroundColor: Colors.mspaintPink,
+        height: deviceWidth < 480 ? 48 : 64,
+        width: deviceWidth < 480 ? 56 : 72,
+        fontSize: deviceWidth < 480 ? 24 : 40,
+        borderWidth: deviceWidth < 480 ? 2 : 4,
+        borderRadius: 4,
+        borderColor: Colors.white,
+        color: Colors.black,
         textAlign: 'center',
+        opacity: 0.7,
     },
     buttonsContainer: {
         flexDirection: 'row',
         width: '100%',
-        paddingHorizontal: 8
+        padding: deviceWidth < 480 ? 8 : 16,
     },
     buttonContainer: {
-        flex: 2,
-        marginHorizontal: 8,
+        flex: 1,
+        marginHorizontal: deviceWidth < 480 ? 8 : 16,
     },
     caption: {
-        marginBottom: 8,
+        margin: deviceWidth < 480 ? 8 : 16,
+        padding: deviceWidth < 480 ? 8 : 16,
         justifyContent: 'center',
         alignItems: 'center',
     },

@@ -1,5 +1,5 @@
 import { useState} from 'react'
-import { StyleSheet, ImageBackground, SafeAreaView } from 'react-native'
+import {StyleSheet, ImageBackground, SafeAreaView, Dimensions} from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading'
@@ -56,21 +56,23 @@ export default function App() {
 
     return (
         <LinearGradient
-            colors={ [Colors.primary700, Colors.accent500] }
+            colors={ [Colors.mspaintBlue, Colors.mspaintYellow] }
             style={ styles.rootContainer }>
-            {/*<ImageBackground*/}
-            {/*    source={ require('./assets/images/spamton-fortnite-dance.gif') }*/}
-            {/*    style={ styles.rootContainer }*/}
-            {/*    imageStyle={ styles.backgroundImage }*/}
-            {/*    resizeMode={ 'cover' }*/}
-            {/*>*/}
+            <ImageBackground
+                source={ require('./assets/images/blue-brick-wall-bg-01.jpg') }
+                style={ styles.rootContainer }
+                imageStyle={ styles.backgroundImage }
+                resizeMode={ 'cover' }
+            >
                 <SafeAreaView style={ styles.rootContainer }>
                     { screen }
                 </SafeAreaView>
-            {/*</ImageBackground>*/}
+            </ImageBackground>
         </LinearGradient>
     )
 }
+
+const deviceWidth = Dimensions.get('screen').width
 
 const styles = StyleSheet.create({
     rootContainer: {
@@ -78,6 +80,9 @@ const styles = StyleSheet.create({
     },
     backgroundImage: {
         flex: 1,
-        opacity: 0.5
+        opacity: 0.6,
+        position: 'absolute',
+        left: 0,
+        top: 0,
     }
 })

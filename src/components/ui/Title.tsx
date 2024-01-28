@@ -1,4 +1,4 @@
-import { Text, StyleSheet } from 'react-native'
+import {Text, StyleSheet, Dimensions} from 'react-native'
 import Colors from '../../constants/colors'
 
 function Title({ children }) {
@@ -7,15 +7,21 @@ function Title({ children }) {
   )
 }
 
+const deviceWidth = Dimensions.get('screen').width
+
 const styles = StyleSheet.create({
     title: {
-        fontFamily: 'RobotoBold',
-        fontSize: 24,
-        color : Colors.accent500,
+        fontFamily: 'RobotoThin',
+        fontSize: deviceWidth < 480 ? 22 : 36,
+        color : Colors.mspaintYellow,
         textAlign: 'center',
-        borderWidth: 2,
-        borderColor: Colors.accent500,
-        padding: 16,
+        borderWidth: deviceWidth < 480 ? 3 : 5,
+        borderRadius: 4,
+        borderColor: Colors.black,
+        padding: deviceWidth < 480 ? 12 : 24,
+        minWidth: 280,
+        maxWidth: '80%',
+        backgroundColor: 'rgba(0,0,0,0.9)',
     }
 })
 
