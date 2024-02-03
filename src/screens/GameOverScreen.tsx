@@ -1,29 +1,38 @@
-import {View, Image, StyleSheet, Text, Dimensions} from 'react-native'
+import {
+    View,
+    Image,
+    StyleSheet,
+    Text,
+    Dimensions
+} from 'react-native'
 import Title from '../components/ui/Title'
 import Colors from '../constants/colors'
 import PrimaryButton from '../components/ui/PrimaryButton'
-import Card from "../components/ui/Card";
+import Card from '../components/ui/Card'
 
 function GameOverScreen({ rounds, userNumber, onNewGame }) {
     return (
-        <View style={ styles.container }>
-            <Title>IT's [[ALLLL OVER]] AT HALF PRICE !!</Title>
-            <View style={ styles.imageContainer }>
-                <Image
-                    source={ require('../../assets/images/spamton-fortnite-dance.gif') }
-                    style={ styles.image }
-                />
-            </View>
-            <View style={ styles.card }>
+        <>
+            <Title>Game Over</Title>
+            <View style={ styles.container }>
+                <Title>IT's [[ALL OVER]] AT HALF PRICE !!</Title>
+                <View style={ styles.imageContainer }>
+                    <Image
+                        source={ require('../../assets/images/spamton-fortnite-dance.gif') }
+                        style={ styles.image }
+                    />
+                </View>
+                <View style={ styles.card }>
 
-                <Card>
+                    <Card>
                         <Text style={ styles.summaryText }>Your number was <Text style={ styles.highlight }>{ userNumber }</Text>...</Text>
                         <Text style={ styles.summaryText }>And it only took me <Text style={ styles.highlight }>{ rounds }</Text> guesses !!</Text>
-                    <PrimaryButton
-                        onPress={ onNewGame }>Play Again ??</PrimaryButton>
-                </Card>
+                        <PrimaryButton
+                            onPress={ onNewGame }>Play Again ??</PrimaryButton>
+                    </Card>
+                </View>
             </View>
-        </View>
+        </>
     )
 }
 

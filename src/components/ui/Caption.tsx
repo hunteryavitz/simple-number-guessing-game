@@ -1,21 +1,49 @@
-import {Dimensions, StyleSheet, Text} from 'react-native'
+import {
+    Dimensions,
+    StyleSheet,
+    Text,
+    useWindowDimensions
+} from 'react-native'
 import Colors from '../../constants/colors'
 
 function Caption({ children, style }) {
-    return (
-        <Text style={ [styles.caption, style] } >
-            { children }
-        </Text>
-    )
+    const deviceWidth = Dimensions.get('screen').width
+    const { width, height } = useWindowDimensions()
+
+    let content: any
+
+    const styles = StyleSheet.create({
+        captionPortrait: {
+            color: Colors.mspaintYellow,
+            fontFamily: 'RobotoBold',
+            fontSize: deviceWidth < 480 ? 14 : 24,
+        },
+        captionLandscape: {
+            color: Colors.mspaintYellow,
+            fontFamily: 'RobotoBold',
+            fontSize: deviceWidth < 480 ? 14 : 24,
+        },
+    })
+
+    if (width > height) {
+        content = (
+            <>
+                <Text style={ [styles.captionLandscape, style] } >
+                    { children }
+                </Text>
+            </>
+        )
+    } else {
+        content = (
+            <>
+                <Text style={ [styles.captionPortrait, style] } >
+                    { children }
+                </Text>
+            </>
+        )
+    }
+
+    return content
 }
 
-const deviceWidth = Dimensions.get('screen').width
-
-const styles = StyleSheet.create({
-    caption: {
-        color: Colors.mspaintYellow,
-        fontFamily: 'RobotoBold',
-        fontSize: deviceWidth < 480 ? 14 : 24,
-    },
-})
 export default Caption

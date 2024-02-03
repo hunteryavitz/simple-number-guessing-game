@@ -1,13 +1,23 @@
-import { useState} from 'react'
-import {StyleSheet, ImageBackground, SafeAreaView, Dimensions} from 'react-native'
+import {
+    useState,
+    useEffect
+} from 'react'
+import {
+    StyleSheet,
+    ImageBackground,
+    SafeAreaView,
+    StatusBar
+} from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useFonts } from 'expo-font'
-import AppLoading from 'expo-app-loading'
 
 import StartGameScreen from './src/screens/StartGameScreen'
 import GameScreen from './src/screens/GameScreen'
 import Colors from './src/constants/colors'
 import GameOverScreen from './src/screens/GameOverScreen'
+import React from 'react'
+
+import * as SplashScreen from 'expo-splash-screen'
 
 export default function App() {
     const [userNumber, setUserNumber] = useState<number | null>(null)
@@ -21,8 +31,30 @@ export default function App() {
         'RobotoThin': require('./assets/fonts/Roboto-Thin.ttf'),
     })
 
+    useEffect(() => {
+        async function prepare() {
+            try {
+                await SplashScreen.preventAutoHideAsync()
+            } catch (e) {
+                console.warn(e)
+            }
+        }
+
+        prepare().then(r => console.log(r))
+    }, [])
+
+    useEffect(() => {
+        async function hideSplashScreen() {
+            if (fontsLoaded) {
+                await SplashScreen.hideAsync()
+            }
+        }
+
+        hideSplashScreen().then(r => console.log(r))
+    }, [fontsLoaded]);
+
     if (!fontsLoaded) {
-        return <AppLoading/>
+        return null
     }
 
     function enteredNumberHandler(enteredNumber: number) {
@@ -55,24 +87,25 @@ export default function App() {
     }
 
     return (
-        <LinearGradient
-            colors={ [Colors.mspaintBlue, Colors.mspaintYellow] }
-            style={ styles.rootContainer }>
-            <ImageBackground
-                source={ require('./assets/images/blue-brick-wall-bg-01.jpg') }
-                style={ styles.rootContainer }
-                imageStyle={ styles.backgroundImage }
-                resizeMode={ 'cover' }
-            >
-                <SafeAreaView style={ styles.rootContainer }>
-                    { screen }
-                </SafeAreaView>
-            </ImageBackground>
-        </LinearGradient>
+        <>
+            <StatusBar barStyle={ 'light-content' }  />
+            <LinearGradient
+                colors={ [Colors.mspaintBlue, Colors.mspaintYellow] }
+                style={ styles.rootContainer }>
+                <ImageBackground
+                    source={ require('./assets/images/blue-brick-wall-bg-01.jpg') }
+                    style={ styles.rootContainer }
+                    imageStyle={ styles.backgroundImage }
+                    resizeMode={ 'cover' }
+                >
+                    <SafeAreaView style={ styles.rootContainer }>
+                        { screen }
+                    </SafeAreaView>
+                </ImageBackground>
+            </LinearGradient>
+        </>
     )
 }
-
-const deviceWidth = Dimensions.get('screen').width
 
 const styles = StyleSheet.create({
     rootContainer: {

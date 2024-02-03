@@ -1,4 +1,12 @@
-import {View, StyleSheet, Alert, FlatList, Image, Dimensions} from 'react-native'
+import {
+    View,
+    StyleSheet,
+    Alert,
+    FlatList,
+    Image,
+    Dimensions,
+    useWindowDimensions
+} from 'react-native'
 import Title from '../components/ui/Title'
 import { useState, useEffect } from 'react'
 import NumberContainer from '../components/game/NumberContainer'
@@ -8,7 +16,6 @@ import Caption from '../components/ui/Caption'
 import { Ionicons } from '@expo/vector-icons'
 import Colors from '../constants/colors'
 import LogItem from '../components/game/LogItem'
-import {LinearGradient} from "expo-linear-gradient";
 
 function generateRandomNumber(min: number, max: number, exclude: any) {
     const randomNumber = Math.floor(Math.random() * (max - min)) + min
@@ -22,6 +29,9 @@ function GameScreen({userNumber, onGameOver}) {
     const initialGuess = generateRandomNumber(1, 100, userNumber)
     const [currentGuess, setCurrentGuess] = useState(initialGuess)
     const [rounds, setRounds] = useState([initialGuess])
+    const { width, height } = useWindowDimensions()
+    const roundsLength = rounds.length
+
 
     useEffect(() => {
         if (currentGuess === userNumber) {
@@ -49,13 +59,46 @@ function GameScreen({userNumber, onGameOver}) {
         setRounds((currentRounds) => [newRound, ...currentRounds])
     }
 
-    const roundsLength = rounds.length
-
-    return (
+    let content = (
         <>
+            <NumberContainer>{currentGuess}</NumberContainer>
+            <View style={ styles.imageContainer }>
+                <Image
+                    source={ require('../../assets/images/spamton-laughing-01.gif') }
+                    style={ styles.image }
+                />
+            </View>
+            <Card>
+                <Caption style={styles.caption}>Is that your number??</Caption>
+                <View style={styles.buttonContainer}>
+                    <View style={styles.button}>
+                        <PrimaryButton
+                            onPress={nextGuessHandler.bind(this, 0)}>
+                            {/*<Ionicons*/}
+                            {/*    name="remove"*/}
+                            {/*    size={deviceWidth < 480 ? 32 : 48}*/}
+                            {/*    color={Colors.black}/>*/}
+                            - LOWER
+                        </PrimaryButton>
+                    </View>
+                    <View style={styles.button}>
+                        <PrimaryButton
+                            onPress={nextGuessHandler.bind(this, 1)}>
+                            HIGHER +
+                            {/*<Ionicons*/}
+                            {/*    name="add"*/}
+                            {/*    size={deviceWidth < 480 ? 40 : 48}*/}
+                            {/*    color={Colors.black}/>*/}
+                        </PrimaryButton>
+                    </View>
+                </View>
+            </Card>
+        </>
+    )
 
-            <View style={styles.container}>
-                <Title children={'I GUESS [[A BIG, BIG SHOT]]...'}/>
+    if (width > height) {
+        content = (
+            <>
                 <NumberContainer>{currentGuess}</NumberContainer>
                 <View style={ styles.imageContainer }>
                     <Image
@@ -69,25 +112,36 @@ function GameScreen({userNumber, onGameOver}) {
                         <View style={styles.button}>
                             <PrimaryButton
                                 onPress={nextGuessHandler.bind(this, 0)}>
-                                {/*<Ionicons*/}
-                                {/*    name="remove"*/}
-                                {/*    size={deviceWidth < 480 ? 32 : 48}*/}
-                                {/*    color={Colors.black}/>*/}
-                                - LOWER
+                                <Ionicons
+                                    name="remove"
+                                    size={deviceWidth < 480 ? 32 : 48}
+                                    color={Colors.black}/>
+                                {/*- LOWER*/}
                             </PrimaryButton>
                         </View>
                         <View style={styles.button}>
                             <PrimaryButton
                                 onPress={nextGuessHandler.bind(this, 1)}>
-                                HIGHER +
-                                {/*<Ionicons*/}
-                                {/*    name="add"*/}
-                                {/*    size={deviceWidth < 480 ? 40 : 48}*/}
-                                {/*    color={Colors.black}/>*/}
+                                {/*HIGHER +*/}
+                                <Ionicons
+                                    name="add"
+                                    size={deviceWidth < 480 ? 40 : 48}
+                                    color={Colors.black}/>
                             </PrimaryButton>
                         </View>
                     </View>
                 </Card>
+            </>
+        )
+    }
+
+    return (
+        <>
+
+            { content }
+
+            <View style={styles.container}>
+                <Title children={'I GUESS [[A BIG, BIG SHOT]]...'}/>
                 <FlatList
                     data={ rounds }
                     renderItem={
@@ -99,7 +153,6 @@ function GameScreen({userNumber, onGameOver}) {
                     }
                     keyExtractor={ (item) => item }
                     style={ styles.guesses }
-
                 />
             </View>
         </>
