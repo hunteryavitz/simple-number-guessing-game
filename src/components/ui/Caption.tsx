@@ -5,6 +5,7 @@ import {
     useWindowDimensions
 } from 'react-native'
 import Colors from '../../constants/colors'
+import Resolutions from '../../constants/screens/resolutions'
 
 function Caption({ children, style }) {
     const deviceWidth = Dimensions.get('screen').width
@@ -16,12 +17,12 @@ function Caption({ children, style }) {
         captionPortrait: {
             color: Colors.mspaintYellow,
             fontFamily: 'RobotoBold',
-            fontSize: deviceWidth < 480 ? 14 : 24,
+            fontSize: deviceWidth <= Resolutions.phoneLarge ? 14 : 24,
         },
         captionLandscape: {
             color: Colors.mspaintYellow,
             fontFamily: 'RobotoBold',
-            fontSize: deviceWidth < 480 ? 14 : 24,
+            fontSize: deviceWidth <= Resolutions.phoneLarge ? 18 : 32,
         },
     })
 

@@ -7,6 +7,7 @@ import {
     useWindowDimensions
 } from 'react-native'
 import Colors from '../../constants/colors'
+import Resolutions from '../../constants/screens/resolutions'
 
 function PrimaryButton({ children, onPress }) {
     const deviceWidth = Dimensions.get('screen').width
@@ -16,38 +17,43 @@ function PrimaryButton({ children, onPress }) {
 
     const styles = StyleSheet.create({
         buttonOuterContainerPortrait: {
+            borderWidth: 2,
+            borderColor: Colors.black,
             borderRadius: 16,
-            margin: deviceWidth < 480 ? 12 : 24,
+            margin: deviceWidth <= Resolutions.phoneLarge ? 12 : 24,
             overflow: 'hidden',
         },
         buttonInnerContainerPortrait: {
             backgroundColor: Colors.mspaintYellow,
-            padding: deviceWidth < 480 ? 12 : 24,
+            padding: deviceWidth <= Resolutions.phoneLarge ? 12 : 24,
             elevation: 4,
         },
         buttonTextPortrait: {
             fontFamily: 'RobotoBold',
             color: Colors.black,
-            fontSize: deviceWidth < 480 ? 18 : 32,
+            fontSize: deviceWidth <= Resolutions.phoneLarge ? 18 : 32,
             textAlign: 'center',
         },
         pressedPortrait: {
             opacity: 0.2
         },
+        
         buttonOuterContainerLandscape: {
+            borderWidth: 5,
+            borderColor: Colors.black,
             borderRadius: 16,
-            margin: deviceWidth < 480 ? 12 : 24,
+            margin: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
             overflow: 'hidden',
         },
         buttonInnerContainerLandscape: {
             backgroundColor: Colors.mspaintYellow,
-            padding: deviceWidth < 480 ? 12 : 24,
+            padding: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
             elevation: 4,
         },
         buttonTextLandscape: {
             fontFamily: 'RobotoBold',
             color: Colors.black,
-            fontSize: deviceWidth < 480 ? 18 : 32,
+            fontSize: deviceWidth <= Resolutions.phoneLarge ? 18 : 32,
             textAlign: 'center',
         },
         pressedLandscape: {
