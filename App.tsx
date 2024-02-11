@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     },
     backgroundImage: {
         flex: 1,
-        opacity: 0.6,
+        opacity: 0.9,
         position: 'absolute',
         left: 0,
         top: 0,
