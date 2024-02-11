@@ -8,9 +8,8 @@ import {
     KeyboardAvoidingView,
     View,
     useWindowDimensions,
-    Animated
+    ScrollView,
 } from 'react-native'
-import ScrollView = Animated.ScrollView
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Colors from '../constants/colors'
 import Title from '../components/ui/Title'
@@ -40,7 +39,7 @@ function StartGameScreen({ onEnteredNumber }) {
         if (isNaN(confirmedNumber) || confirmedNumber <= 0 || confirmedNumber > 99) {
             Alert.alert(Alerts.gameStartScreen.invalidNumber.title,
                 Alerts.gameStartScreen.invalidNumber.message,
-                [{ text: Alerts.gameStartScreen.invalidNumber.text, onPress: () => resetInputHandler }])
+                [{ text: Alerts.gameStartScreen.invalidNumber.text, onPress: resetInputHandler }])
             return
         }
 
@@ -55,14 +54,14 @@ function StartGameScreen({ onEnteredNumber }) {
     if (deviceOrientation === 0) { // portrait specific styling
         return (
             <>
-                <ScrollView style={styles.screenPortrait}>
+                <ScrollView style={styles.screen}>
                     <KeyboardAvoidingView
-                        style={styles.screenPortrait}
+                        style={styles.screen}
                         behavior={"position"}>
                         <View
                             style={
                                 [
-                                    styles.containerPortrait, // global container styling
+                                    styles.container, // global container styling
                                     {
                                         marginTop: marginTop, // class specific container styling
                                         marginVertical: marginVertical,
@@ -72,20 +71,20 @@ function StartGameScreen({ onEnteredNumber }) {
                             }>
                             <View style={styles.mainPortrait}>
                                 <View style={styles.subUpperPortrait}>
-                                    <View style={styles.titlePortrait}>
+                                    <View style={styles.headerTitlePortrait}>
                                         <Title children={Titles.gameStart}></Title>
                                         {/*<Text style={ styles.subHeaderPortrait }>{ Platform.OS === 'android' ? 'android' : 'on iOS' } { Platform.isTV ? 'tv' : 'mobile' }</Text>*/}
                                     </View>
-                                    <View style={styles.headerPortrait}>
+                                    <View style={styles.headerContentPortrait}>
                                         <Image
                                             source={require('../../assets/images/spamton-eager.gif')}
-                                            style={styles.imagePortrait}
+                                            style={styles.image}
                                         />
                                     </View>
                                 </View>
                                 <View style={styles.subLowerPortrait}>
                                     <Card>
-                                        <Caption style={styles.contentUpperPortrait}>{Captions.gameStart}</Caption>
+                                        <Caption style={styles.contentUpper}>{Captions.gameStart}</Caption>
                                         <View style={styles.contentLowerPortrait}>
                                             <TextInput
                                                 style={styles.contentInnerPortrait}
@@ -97,12 +96,12 @@ function StartGameScreen({ onEnteredNumber }) {
                                                 value={enteredValue}
                                             />
                                             <View style={styles.contentLowerButtonsPortrait}>
-                                                <View style={styles.contentOuterPortrait}>
+                                                <View style={styles.contentOuter}>
                                                     <PrimaryButton
                                                         onPress={resetInputHandler}
                                                     >{Buttons.gameStart.reset}</PrimaryButton>
                                                 </View>
-                                                <View style={styles.contentOuterPortrait}>
+                                                <View style={styles.contentOuter}>
                                                     <PrimaryButton
                                                         onPress={confirmInputHandler}
                                                     >{Buttons.gameStart.submit}</PrimaryButton>
@@ -124,15 +123,15 @@ function StartGameScreen({ onEnteredNumber }) {
         // landscape
         return (
             <>
-                <ScrollView style={styles.screenLandscape}>
+                <ScrollView style={styles.screen}>
                     <KeyboardAvoidingView
-                        style={styles.screenLandscape}
+                        style={styles.screen}
                         behavior={"position"}>
                         <View
                             style={
                                 [
                                     // global container styling
-                                    styles.containerLandscape,
+                                    styles.container,
                                     {
                                         // orientation specific container styling
                                         marginTop: marginTop,
@@ -150,15 +149,15 @@ function StartGameScreen({ onEnteredNumber }) {
                                     <View style={styles.headerRightLandscape}>
                                         <Image
                                             source={require('../../assets/images/spamton-eager.gif')}
-                                            style={styles.imageLandscape}
+                                            style={styles.image}
                                         />
                                     </View>
                                 </View>
                                 <View style={styles.subLowerLandscape}>
                                     <Card>
-                                        <Caption style={styles.contentUpperLandscape}>{Captions.gameStart}</Caption>
+                                        <Caption style={styles.contentUpper}>{Captions.gameStart}</Caption>
                                         <View style={styles.contentLowerLandscape}>
-                                            <View style={styles.contentOuterLandscape}>
+                                            <View style={styles.contentOuter}>
                                                 <PrimaryButton
                                                     onPress={resetInputHandler}
                                                 >{Buttons.gameStart.reset}</PrimaryButton>
@@ -172,7 +171,7 @@ function StartGameScreen({ onEnteredNumber }) {
                                                 onChangeText={numberInputHandler}
                                                 value={enteredValue}
                                             />
-                                            <View style={styles.contentOuterLandscape}>
+                                            <View style={styles.contentOuter}>
                                                 <PrimaryButton
                                                     onPress={confirmInputHandler}
                                                 >{Buttons.gameStart.submit}</PrimaryButton>
@@ -194,12 +193,10 @@ const deviceWidth = Dimensions.get('screen').width
 const deviceHeight = Dimensions.get('screen').height
 
 const styles = StyleSheet.create({
-
-    // portrait
-    screenPortrait: {
+    screen: {
         flex: 1,
     },
-    containerPortrait: {
+    container: {
         flex: 1,
     },
     mainPortrait: {
@@ -216,10 +213,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         padding: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
     },
-    titlePortrait: {
+    headerTitlePortrait: {
         marginTop: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
     },
-    headerPortrait: {
+    headerContentPortrait: {
         borderWidth: deviceWidth <= Resolutions.phoneLarge ? 3 : 5,
         borderColor: 'Colors.black',
         borderRadius: deviceWidth <= Resolutions.phoneLarge ? 98 : 160,
@@ -227,11 +224,11 @@ const styles = StyleSheet.create({
         height: deviceWidth <= Resolutions.phoneLarge ? 196 : 320,
         overflow: 'hidden',
     },
-    imagePortrait: {
+    image: {
         width: '100%',
         height: '100%',
     },
-    contentUpperPortrait: {
+    contentUpper: {
         margin: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
     },
     contentLowerPortrait: {
@@ -243,7 +240,7 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
     },
-    contentOuterPortrait: {
+    contentOuter: {
         flex: 1,
     },
     contentInnerPortrait: {
@@ -259,14 +256,6 @@ const styles = StyleSheet.create({
         color: Colors.black,
         textAlign: 'center',
         opacity: 0.7,
-    },
-
-    // landscape
-    screenLandscape: {
-        flex: 1,
-    },
-    containerLandscape: {
-        flex: 1,
     },
     mainLandscape: {
         flex: 1,
@@ -295,20 +284,10 @@ const styles = StyleSheet.create({
         height: deviceWidth <= Resolutions.phoneLarge ? 120 : 160,
         overflow: 'hidden',
     },
-    imageLandscape: {
-        width: '100%',
-        height: '100%',
-    },
-    contentUpperLandscape: {
-        margin: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
-    },
     contentLowerLandscape: {
         alignItems: 'center',
         flexDirection: 'row',
         paddingHorizontal: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
-    },
-    contentOuterLandscape: {
-        flex: 1,
     },
     contentInnerLandscape: {
         margin: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
