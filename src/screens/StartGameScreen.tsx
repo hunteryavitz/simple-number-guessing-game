@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
     Alert,
     Dimensions,
@@ -10,13 +11,12 @@ import {
     Animated,
     Platform
 } from 'react-native'
+import ScrollView = Animated.ScrollView
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Colors from '../constants/colors'
 import Title from '../components/ui/Title'
 import Card from '../components/ui/Card'
 import Caption from '../components/ui/Caption'
-import ScrollView = Animated.ScrollView
-import { useState } from 'react'
 import Resolutions from '../constants/screens/resolutions'
 import Titles from '../constants/text/titles'
 import Captions from '../constants/text/captions'
@@ -26,6 +26,7 @@ import Buttons from '../constants/text/buttons'
 function StartGameScreen({ onEnteredNumber }) {
     const [enteredValue, setEnteredValue] = useState('')
     const { width, height } = useWindowDimensions()
+    const deviceOrientation = width > height ? 1 : 0
 
     const marginTop = height <= Resolutions.phoneLarge ? 12 : 32
     const marginVertical = height <= Resolutions.phoneLarge ? 8 : 16
@@ -38,9 +39,9 @@ function StartGameScreen({ onEnteredNumber }) {
     function confirmInputHandler() {
         const confirmedNumber = parseInt(enteredValue)
         if (isNaN(confirmedNumber) || confirmedNumber <= 0 || confirmedNumber > 99) {
-            Alert.alert(Alerts.gameStart.title,
-                Alerts.gameStart.message,
-                [{ text: Alerts.gameStart.text, onPress: () => resetInputHandler }])
+            Alert.alert(Alerts.gameStartScreen.invalidNumber.title,
+                Alerts.gameStartScreen.invalidNumber.message,
+                [{ text: Alerts.gameStartScreen.invalidNumber.text, onPress: () => resetInputHandler }])
             return
         }
 
@@ -52,87 +53,213 @@ function StartGameScreen({ onEnteredNumber }) {
         setEnteredValue('')
     }
 
-    return (
-        <>
-            <ScrollView style={ styles.screenLandscape }>
-                <KeyboardAvoidingView
-                    style={ styles.screenLandscape }
-                    behavior={ "position" }>
-                    <View
-                        style={
-                            [
-                                // global container styling
-                                styles.containerLandscape,
-                                {
-                                    // orientation specific container styling
-                                    marginTop: marginTop,
-                                    marginVertical: marginVertical,
-                                    marginHorizontal: marginHorizontal
-                                }
-                            ]
-                        }>
-                        <View style={ styles.mainLandscape }>
-                                <View style={ styles.subUpperLandscape }>
-                                    <View style={ styles.headerLeftLandscape }>
-                                        <Title children={ Titles.gameStart }></Title>
-                                        {/*<Text style={ styles.subHeaderLandscape }>{ Platform.OS === 'android' ? 'android' : 'on iOS' } { Platform.isTV ? 'tv' : 'mobile' }</Text>*/}
+    if (deviceOrientation === 0) { // portrait specific styling
+        return (
+            <>
+                <ScrollView style={styles.screenPortrait}>
+                    <KeyboardAvoidingView
+                        style={styles.screenPortrait}
+                        behavior={"position"}>
+                        <View
+                            style={
+                                [
+                                    styles.containerPortrait, // global container styling
+                                    {
+                                        marginTop: marginTop, // class specific container styling
+                                        marginVertical: marginVertical,
+                                        marginHorizontal: marginHorizontal
+                                    }
+                                ]
+                            }>
+                            <View style={styles.mainPortrait}>
+                                <View style={styles.subUpperPortrait}>
+                                    <View style={styles.titlePortrait}>
+                                        <Title children={Titles.gameStart}></Title>
+                                        {/*<Text style={ styles.subHeaderPortrait }>{ Platform.OS === 'android' ? 'android' : 'on iOS' } { Platform.isTV ? 'tv' : 'mobile' }</Text>*/}
                                     </View>
-                                    <View style={ styles.headerRightLandscape }>
+                                    <View style={styles.headerPortrait}>
                                         <Image
-                                            source={ require('../../assets/images/spamton-eager.gif') }
-                                            style={ styles.imageLandscape }
+                                            source={require('../../assets/images/spamton-eager.gif')}
+                                            style={styles.imagePortrait}
                                         />
                                     </View>
                                 </View>
-                                <View style={ styles.subLowerLandscape }>
+                                <View style={styles.subLowerPortrait}>
                                     <Card>
-                                        <Caption style={ styles.contentUpperLandscape }>{Captions.gameStart}</Caption>
-                                        <View style={ styles.contentLowerLandscape }>
-                                            <View style={ styles.contentOuterLandscape }>
-                                                <PrimaryButton
-                                                    onPress={ resetInputHandler }
-                                                >{ Buttons.gameStart.reset }</PrimaryButton>
-                                            </View>
+                                        <Caption style={styles.contentUpperPortrait}>{Captions.gameStart}</Caption>
+                                        <View style={styles.contentLowerPortrait}>
                                             <TextInput
-                                                style={ styles.contentInnerLandscape }
-                                                maxLength={ 2 }
-                                                keyboardType={ 'number-pad' }
-                                                autoCapitalize={ 'none' }
-                                                autoCorrect={ false }
-                                                onChangeText={ numberInputHandler }
-                                                value={ enteredValue }
+                                                style={styles.contentInnerPortrait}
+                                                maxLength={2}
+                                                keyboardType={'number-pad'}
+                                                autoCapitalize={'none'}
+                                                autoCorrect={false}
+                                                onChangeText={numberInputHandler}
+                                                value={enteredValue}
                                             />
-                                            <View style={ styles.contentOuterLandscape }>
-                                                <PrimaryButton
-                                                    onPress={ confirmInputHandler }
-                                                >{ Buttons.gameStart.submit }</PrimaryButton>
+                                            <View style={styles.contentLowerButtonsPortrait}>
+                                                <View style={styles.contentOuterPortrait}>
+                                                    <PrimaryButton
+                                                        onPress={resetInputHandler}
+                                                    >{Buttons.gameStart.reset}</PrimaryButton>
+                                                </View>
+                                                <View style={styles.contentOuterPortrait}>
+                                                    <PrimaryButton
+                                                        onPress={confirmInputHandler}
+                                                    >{Buttons.gameStart.submit}</PrimaryButton>
+                                                </View>
                                             </View>
                                         </View>
                                     </Card>
                                 </View>
 
+                            </View>
                         </View>
-                    </View>
-                </KeyboardAvoidingView>
-            </ScrollView>
-        </>
-    )
+                    </KeyboardAvoidingView>
+                </ScrollView>
+            </>
+        )
+
+    } else {
+
+        // landscape
+        return (
+            <>
+                <ScrollView style={styles.screenLandscape}>
+                    <KeyboardAvoidingView
+                        style={styles.screenLandscape}
+                        behavior={"position"}>
+                        <View
+                            style={
+                                [
+                                    // global container styling
+                                    styles.containerLandscape,
+                                    {
+                                        // orientation specific container styling
+                                        marginTop: marginTop,
+                                        marginVertical: marginVertical,
+                                        marginHorizontal: marginHorizontal
+                                    }
+                                ]
+                            }>
+                            <View style={styles.mainLandscape}>
+                                <View style={styles.subUpperLandscape}>
+                                    <View style={styles.headerLeftLandscape}>
+                                        <Title children={Titles.gameStart}></Title>
+                                        {/*<Text style={ styles.subHeaderLandscape }>{ Platform.OS === 'android' ? 'android' : 'on iOS' } { Platform.isTV ? 'tv' : 'mobile' }</Text>*/}
+                                    </View>
+                                    <View style={styles.headerRightLandscape}>
+                                        <Image
+                                            source={require('../../assets/images/spamton-eager.gif')}
+                                            style={styles.imageLandscape}
+                                        />
+                                    </View>
+                                </View>
+                                <View style={styles.subLowerLandscape}>
+                                    <Card>
+                                        <Caption style={styles.contentUpperLandscape}>{Captions.gameStart}</Caption>
+                                        <View style={styles.contentLowerLandscape}>
+                                            <View style={styles.contentOuterLandscape}>
+                                                <PrimaryButton
+                                                    onPress={resetInputHandler}
+                                                >{Buttons.gameStart.reset}</PrimaryButton>
+                                            </View>
+                                            <TextInput
+                                                style={styles.contentInnerLandscape}
+                                                maxLength={2}
+                                                keyboardType={'number-pad'}
+                                                autoCapitalize={'none'}
+                                                autoCorrect={false}
+                                                onChangeText={numberInputHandler}
+                                                value={enteredValue}
+                                            />
+                                            <View style={styles.contentOuterLandscape}>
+                                                <PrimaryButton
+                                                    onPress={confirmInputHandler}
+                                                >{Buttons.gameStart.submit}</PrimaryButton>
+                                            </View>
+                                        </View>
+                                    </Card>
+                                </View>
+
+                            </View>
+                        </View>
+                    </KeyboardAvoidingView>
+                </ScrollView>
+            </>
+        )
+    }
 }
 
 const deviceWidth = Dimensions.get('screen').width
 const deviceHeight = Dimensions.get('screen').height
 
 const styles = StyleSheet.create({
+
     screenPortrait: {
         flex: 1,
     },
     containerPortrait: {
         flex: 1,
-        marginTop: deviceWidth <= Resolutions.phoneLarge ? 56 : 64,
-        borderWidth: Platform.select({ ios: 0, android: 1 }),
-        // justifyContent: 'space-between',
-        // alignItems: 'center',
     },
+    mainPortrait: {
+        flex: 1,
+        height: deviceHeight - 160,
+    },
+    subUpperPortrait: {
+        flex: 5,
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+    },
+    subLowerPortrait: {
+        flex: 5,
+        justifyContent: 'flex-end',
+        padding: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
+    },
+    titlePortrait: {
+        marginTop: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
+    },
+    headerPortrait: {
+        borderWidth: deviceWidth <= Resolutions.phoneLarge ? 3 : 5,
+        borderColor: 'Colors.black',
+        borderRadius: deviceWidth <= Resolutions.phoneLarge ? 120 : 160,
+        width: deviceWidth <= Resolutions.phoneLarge ? 240 : 320,
+        height: deviceWidth <= Resolutions.phoneLarge ? 240 : 320,
+        overflow: 'hidden',
+    },
+    contentUpperPortrait: {
+        margin: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
+    },
+    contentLowerPortrait: {
+        alignItems: 'center',
+        // flexDirection: 'row',
+        paddingHorizontal: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
+    },
+    contentLowerButtonsPortrait: {
+        flexDirection: 'row',
+        width: '100%',
+        padding: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
+    },
+    contentOuterPortrait: {
+        flex: 1,
+    },
+    contentInnerPortrait: {
+        margin: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
+        fontFamily: 'RobotoBold',
+        backgroundColor: Colors.mspaintPink,
+        height: deviceWidth <= Resolutions.phoneLarge ? 64 : 96,
+        width: deviceWidth <= Resolutions.phoneLarge ? 64 : 96,
+        fontSize: deviceWidth <= Resolutions.phoneLarge ? 28 : 36,
+        borderWidth: deviceWidth <= Resolutions.phoneLarge ? 2 : 4,
+        borderRadius: 4,
+        borderColor: Colors.white,
+        color: Colors.black,
+        textAlign: 'center',
+        opacity: 0.7,
+    },
+
+
+
     titleAndImageContainerPortrait: {
         flexDirection: 'row',
         // justifyContent: 'center',
@@ -180,7 +307,7 @@ const styles = StyleSheet.create({
     },
 
 
-    //
+    // landscape
     screenLandscape: {
         flex: 1,
     },
@@ -239,6 +366,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         opacity: 0.7,
     },
+
+
 
 
     content: {

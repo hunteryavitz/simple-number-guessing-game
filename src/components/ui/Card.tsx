@@ -16,7 +16,7 @@ function Card({ children }) {
     const styles = StyleSheet.create({
         cardPortrait: {
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'center', 
             marginTop: deviceWidth <= Resolutions.phoneLarge ? 12 : 12,
             padding: deviceWidth <= Resolutions.phoneLarge ? 12 : 12,
             borderWidth: deviceWidth <= Resolutions.phoneLarge ? 3 : 5,

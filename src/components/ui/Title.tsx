@@ -35,10 +35,11 @@ function Title({ children }) {
             borderWidth: deviceWidth <= Resolutions.phoneLarge ? 2 : 4,
             borderRadius: 4,
             borderColor: Colors.black,
-            padding: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
+            padding: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
             minWidth: deviceWidth <= Resolutions.phoneLarge ? 120 : 160,
             maxWidth: '90%',
             backgroundColor: 'rgba(0,0,0,0.6)',
+
         }
     })
 
