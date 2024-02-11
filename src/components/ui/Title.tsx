@@ -5,7 +5,7 @@ import {
     useWindowDimensions
 } from 'react-native'
 import Colors from '../../constants/colors'
-import Resolutions from "../../constants/screens/resolutions";
+import Resolutions from '../../constants/screens/resolutions'
 
 function Title({ children }) {
     const deviceWidth = Dimensions.get('screen').width
@@ -15,8 +15,8 @@ function Title({ children }) {
 
     const styles = StyleSheet.create({
         titlePortrait: {
-            fontFamily: 'RobotoThin',
-            fontSize: deviceWidth <= Resolutions.phoneLarge ? 12 : 18,
+            fontFamily: 'RobotoBold',
+            fontSize: deviceWidth <= Resolutions.phoneLarge ? 14 : 24,
             color : Colors.mspaintYellow,
             textAlign: 'center',
             borderWidth: deviceWidth <= Resolutions.phoneLarge ? 2 : 4,
@@ -24,8 +24,8 @@ function Title({ children }) {
             borderColor: Colors.black,
             padding: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
             minWidth: deviceWidth <= Resolutions.phoneLarge ? 120 : 160,
-            maxWidth: '80%',
-            backgroundColor: 'rgba(0,0,0,0.9)',
+            maxWidth: '90%',
+            backgroundColor: 'rgba(0,0,0,0.6)',
         },
         titleLandscape: {
             fontFamily: 'RobotoBold',

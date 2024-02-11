@@ -1,7 +1,7 @@
 const Resolutions = {
     phoneSmall: 640,
     phoneMedium: 720,
-    phoneLarge: 960,
+    phoneLarge: 720,
     phoneExtraLarge: 1080,
 
     tabletSmall: 840,

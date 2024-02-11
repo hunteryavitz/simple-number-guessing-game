@@ -17,7 +17,8 @@ function Caption({ children, style }) {
         captionPortrait: {
             color: Colors.mspaintYellow,
             fontFamily: 'RobotoBold',
-            fontSize: deviceWidth <= Resolutions.phoneLarge ? 14 : 24,
+            fontSize: deviceWidth <= Resolutions.phoneLarge ? 18 : 24,
+            marginBottom: 12,
         },
         captionLandscape: {
             color: Colors.mspaintYellow,

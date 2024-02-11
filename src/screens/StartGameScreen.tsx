@@ -8,8 +8,7 @@ import {
     KeyboardAvoidingView,
     View,
     useWindowDimensions,
-    Animated,
-    Platform
+    Animated
 } from 'react-native'
 import ScrollView = Animated.ScrollView
 import PrimaryButton from '../components/ui/PrimaryButton'
@@ -196,6 +195,7 @@ const deviceHeight = Dimensions.get('screen').height
 
 const styles = StyleSheet.create({
 
+    // portrait
     screenPortrait: {
         flex: 1,
     },
@@ -207,12 +207,12 @@ const styles = StyleSheet.create({
         height: deviceHeight - 160,
     },
     subUpperPortrait: {
-        flex: 5,
+        flex: 6,
         justifyContent: 'space-evenly',
         alignItems: 'center',
     },
     subLowerPortrait: {
-        flex: 5,
+        flex: 4,
         justifyContent: 'flex-end',
         padding: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
     },
@@ -222,17 +222,20 @@ const styles = StyleSheet.create({
     headerPortrait: {
         borderWidth: deviceWidth <= Resolutions.phoneLarge ? 3 : 5,
         borderColor: 'Colors.black',
-        borderRadius: deviceWidth <= Resolutions.phoneLarge ? 120 : 160,
-        width: deviceWidth <= Resolutions.phoneLarge ? 240 : 320,
-        height: deviceWidth <= Resolutions.phoneLarge ? 240 : 320,
+        borderRadius: deviceWidth <= Resolutions.phoneLarge ? 98 : 160,
+        width: deviceWidth <= Resolutions.phoneLarge ? 196 : 320,
+        height: deviceWidth <= Resolutions.phoneLarge ? 196 : 320,
         overflow: 'hidden',
+    },
+    imagePortrait: {
+        width: '100%',
+        height: '100%',
     },
     contentUpperPortrait: {
         margin: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
     },
     contentLowerPortrait: {
         alignItems: 'center',
-        // flexDirection: 'row',
         paddingHorizontal: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
     },
     contentLowerButtonsPortrait: {
@@ -244,7 +247,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     contentInnerPortrait: {
-        margin: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
+        margin: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
         fontFamily: 'RobotoBold',
         backgroundColor: Colors.mspaintPink,
         height: deviceWidth <= Resolutions.phoneLarge ? 64 : 96,
@@ -257,55 +260,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         opacity: 0.7,
     },
-
-
-
-    titleAndImageContainerPortrait: {
-        flexDirection: 'row',
-        // justifyContent: 'center',
-        alignItems: 'flex-start',
-    },
-    imageContainerPortrait: {
-        borderWidth: deviceWidth <= Resolutions.phoneLarge ? 2 : 4,
-        borderColor: 'Colors.black',
-        borderRadius: deviceWidth <= Resolutions.phoneLarge ? 64 : 120,
-        width: deviceWidth <= Resolutions.phoneLarge ? 96 : 128,
-        height: deviceWidth <= Resolutions.phoneLarge ? 96 : 128,
-        overflow: 'hidden',
-    },
-    imagePortrait: {
-        width: '100%',
-        height: '100%',
-    },
-    numberInputPortrait: {
-        fontFamily: 'RobotoBold',
-        backgroundColor: Colors.mspaintPink,
-        height: deviceWidth <= Resolutions.phoneLarge ? 48 : 64,
-        width: deviceWidth <= Resolutions.phoneLarge ? 56 : 72,
-        fontSize: deviceWidth <= Resolutions.phoneLarge ? 24 : 40,
-        borderWidth: deviceWidth <= Resolutions.phoneLarge ? 2 : 4,
-        borderRadius: 4,
-        borderColor: Colors.white,
-        color: Colors.black,
-        textAlign: 'center',
-        opacity: 0.7,
-    },
-    buttonsContainerPortrait: {
-        flexDirection: 'row',
-        width: '100%',
-        padding: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
-    },
-    buttonContainerPortrait: {
-        flex: 1,
-        marginHorizontal: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
-    },
-    captionPortrait: {
-        margin: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
-        padding: deviceWidth <= Resolutions.phoneLarge ? 8 : 16,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
 
     // landscape
     screenLandscape: {
@@ -341,6 +295,10 @@ const styles = StyleSheet.create({
         height: deviceWidth <= Resolutions.phoneLarge ? 120 : 160,
         overflow: 'hidden',
     },
+    imageLandscape: {
+        width: '100%',
+        height: '100%',
+    },
     contentUpperLandscape: {
         margin: deviceWidth <= Resolutions.phoneLarge ? 4 : 8,
     },
@@ -366,36 +324,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         opacity: 0.7,
     },
-
-
-
-
-    content: {
-        flexDirection: 'column',
-        width: '100%',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-    },
-    headers: {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        alignItems: 'flex-start',
-    },
-
-
-    imageLandscape: {
-        width: '100%',
-        height: '100%',
-    },
-
-
-
-
-    contentCenteredVertical: {
-        flexDirection: 'column',
-        justifyContent: 'center',
-    },
-
 })
 
 export default StartGameScreen
